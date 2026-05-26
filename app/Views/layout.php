@@ -12,7 +12,6 @@
     <aside class="sidebar">
         <div class="sidebar-brand">
             <h1><?= e(APP_NAME) ?></h1>
-            <span>Maquette interface</span>
         </div>
         <nav class="sidebar-nav">
             <p class="nav-section">Menu</p>
@@ -24,7 +23,7 @@
             <a href="<?= e(url('absences')) ?>" class="nav-link <?= str_starts_with($currentPage, 'absence') ? 'active' : '' ?>">Absences</a>
             <a href="<?= e(url('retards')) ?>" class="nav-link <?= str_starts_with($currentPage, 'retard') ? 'active' : '' ?>">Retards</a>
         </nav>
-        <div class="sidebar-footer">v<?= e(APP_VERSION) ?> &middot; Front only</div>
+        <div class="sidebar-footer">v<?= e(APP_VERSION) ?></div>
     </aside>
     <div class="main-wrap">
         <header class="topbar">
