@@ -1,3 +1,5 @@
 ﻿.env
 storage/logs/
 storage/uploads/
+public/test_user.php
+public/test_student.php

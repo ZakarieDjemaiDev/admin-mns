@@ -5,10 +5,16 @@ namespace App\Controllers;
 use App\Data\MockData;
 
 /**
- * Controleur leger : affiche les vues avec donnees fictives (maquette front).
+ * PageController affiche les vues de la maquette front-end.
+ *
+ * Toutes les données sont chargées depuis MockData,
+ * car il s'agit d'une interface de démonstration sans back-end complet.
  */
 class PageController
 {
+    /**
+     * Affiche le tableau de bord et prépare les statistiques.
+     */
     public function dashboard(): void
     {
         $students = MockData::students();

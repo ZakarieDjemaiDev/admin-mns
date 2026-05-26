@@ -5,6 +5,12 @@ namespace App\Controllers;
 use App\Models\Training;
 use App\Services\DemoStore;
 
+/**
+ * TrainingController gère les actions CRUD des formations.
+ *
+ * En mode démo, les données sont conservées en session.
+ * Sinon, les requêtes passent par le modèle Training et la base de données.
+ */
 class TrainingController
 {
     private ?\PDO $pdo;
@@ -12,10 +18,15 @@ class TrainingController
 
     public function __construct()
     {
-        $this->pdo = tryDatabase();
+        // Essaie de récupérer une connexion PDO depuis la configuration.
+        // Le back-end tente d'ouvrir la base de données ; sinon, on bascule en mode demo.
+        $this->pdo = \tryDatabase();
         $this->demoMode = $this->pdo === null;
     }
 
+    /**
+     * Affiche la liste des formations enregistrées.
+     */
     public function index(): void
     {
         $trainings = $this->demoMode
@@ -29,11 +40,17 @@ class TrainingController
         ], 'Formations');
     }
 
+    /**
+     * Affiche le formulaire de création de formation.
+     */
     public function create(): void
     {
         $this->form(null);
     }
 
+    /**
+     * Affiche le formulaire de modification d'une formation existante.
+     */
     public function edit(): void
     {
         $id = (int) ($_GET['id'] ?? 0);
@@ -47,16 +64,25 @@ class TrainingController
         $this->form($training);
     }
 
+    /**
+     * Enregistre une nouvelle formation depuis $_POST.
+     */
     public function store(): void
     {
         $this->save($_POST);
     }
 
+    /**
+     * Met à jour une formation existante depuis $_POST.
+     */
     public function update(): void
     {
         $this->save($_POST, (int) ($_POST['id'] ?? 0));
     }
 
+    /**
+     * Supprime une formation.
+     */
     public function delete(): void
     {
         $id = (int) ($_POST['id'] ?? 0);
@@ -71,6 +97,9 @@ class TrainingController
         redirect('trainings');
     }
 
+    /**
+     * Affiche le formulaire de création/modification.
+     */
     private function form(?array $training): void
     {
         render('trainings/form', [
@@ -84,12 +113,16 @@ class TrainingController
         unset($_SESSION['form_errors'], $_SESSION['form_old']);
     }
 
+    /**
+     * Traite le formulaire soumis et enregistre les données.
+     */
     private function save(array $data, int $id = 0): void
     {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
 
+        // Normalise les champs fournis par le formulaire.
         $fields = [
             'training_name' => trim($data['training_name'] ?? ''),
             'description' => trim($data['description'] ?? ''),
@@ -100,6 +133,7 @@ class TrainingController
         ];
 
         if ($this->demoMode) {
+            // Mode maquette : on utilise DemoStore en session.
             $model = new Training(null, $fields['training_name'], $fields['duration_months']);
             $model->setDescription($fields['description']);
             $model->setStartDate($fields['start_date']);
@@ -117,6 +151,7 @@ class TrainingController
 
             DemoStore::saveTraining(array_merge($row, $id ? ['id' => $id] : []));
         } else {
+            // Mode base de données : insertion / mise à jour via le modèle.
             if ($id > 0) {
                 $ok = Training::updateById($this->pdo, $id, $fields);
             } else {
@@ -143,6 +178,9 @@ class TrainingController
         redirect('trainings');
     }
 
+    /**
+     * Retourne une formation par son ID en mode session ou base de données.
+     */
     private function find(int $id): ?array
     {
         if ($id <= 0) {
