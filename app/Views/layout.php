@@ -23,9 +23,6 @@
             <a href="<?= e(url('assiduite')) ?>" class="nav-link <?= $currentPage === 'assiduite' ? 'active' : '' ?>">Tableau assiduite</a>
             <a href="<?= e(url('absences')) ?>" class="nav-link <?= str_starts_with($currentPage, 'absence') ? 'active' : '' ?>">Absences</a>
             <a href="<?= e(url('retards')) ?>" class="nav-link <?= str_starts_with($currentPage, 'retard') ? 'active' : '' ?>">Retards</a>
-            <p class="nav-section">POO (cours)</p>
-            <a href="test_user.php" class="nav-link">Tests User</a>
-            <a href="test_student.php" class="nav-link">Tests Student</a>
         </nav>
         <div class="sidebar-footer">v<?= e(APP_VERSION) ?> &middot; Front only</div>
     </aside>
