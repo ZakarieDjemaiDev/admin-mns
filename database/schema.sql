@@ -1,0 +1,58 @@
+USE admin_mns;
+
+CREATE TABLE IF NOT EXISTS USER (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) DEFAULT '',
+    role VARCHAR(50) DEFAULT NULL,
+    school_id INT DEFAULT 0,
+    is_active TINYINT(1) DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS STUDENT (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    file_number VARCHAR(50) NOT NULL UNIQUE,
+    enrollment_date DATE NOT NULL,
+    global_status VARCHAR(50) DEFAULT 'Applicant',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS TRAINING (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    training_name VARCHAR(255) NOT NULL,
+    description TEXT,
+    duration_months INT NOT NULL,
+    start_date DATE,
+    end_date DATE,
+    total_places INT NOT NULL,
+    is_active TINYINT(1) DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS ABSENCE (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT NOT NULL,
+    date DATE NOT NULL,
+    reason VARCHAR(255) DEFAULT NULL,
+    justified TINYINT(1) DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_absence_student (student_id),
+    INDEX idx_absence_date (date)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS RETARD (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT NOT NULL,
+    date DATE NOT NULL,
+    minutes_late INT NOT NULL DEFAULT 0,
+    reason VARCHAR(255) DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_retard_student (student_id),
+    INDEX idx_retard_date (date)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
