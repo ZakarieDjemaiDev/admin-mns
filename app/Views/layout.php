@@ -1,6 +1,4 @@
-<?php
-$flash = getFlash();
-?>
+<?php $flash = getFlash(); ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -14,57 +12,35 @@ $flash = getFlash();
     <aside class="sidebar">
         <div class="sidebar-brand">
             <h1><?= e(APP_NAME) ?></h1>
-            <span>Gestion des formations</span>
+            <span>Maquette interface</span>
         </div>
         <nav class="sidebar-nav">
-            <p class="nav-section">Menu principal</p>
-            <a href="<?= e(url('dashboard')) ?>" class="nav-link <?= $currentPage === 'dashboard' ? 'active' : '' ?>">
-                Tableau de bord
-            </a>
-            <a href="<?= e(url('students')) ?>" class="nav-link <?= str_starts_with($currentPage, 'student') ? 'active' : '' ?>">
-                Etudiants
-            </a>
-            <a href="<?= e(url('trainings')) ?>" class="nav-link <?= str_starts_with($currentPage, 'training') ? 'active' : '' ?>">
-                Formations
-            </a>
+            <p class="nav-section">Menu</p>
+            <a href="<?= e(url('dashboard')) ?>" class="nav-link <?= $currentPage === 'dashboard' ? 'active' : '' ?>">Tableau de bord</a>
+            <a href="<?= e(url('students')) ?>" class="nav-link <?= str_starts_with($currentPage, 'student') ? 'active' : '' ?>">Etudiants</a>
+            <a href="<?= e(url('trainings')) ?>" class="nav-link <?= str_starts_with($currentPage, 'training') ? 'active' : '' ?>">Formations</a>
             <p class="nav-section">Assiduite</p>
-            <a href="<?= e(url('assiduite')) ?>" class="nav-link <?= $currentPage === 'assiduite' ? 'active' : '' ?>">
-                Tableau assiduite
-            </a>
-            <a href="<?= e(url('absences')) ?>" class="nav-link <?= str_starts_with($currentPage, 'absence') ? 'active' : '' ?>">
-                Absences
-            </a>
-            <a href="<?= e(url('retards')) ?>" class="nav-link <?= str_starts_with($currentPage, 'retard') ? 'active' : '' ?>">
-                Retards
-            </a>
-            <p class="nav-section">Developpement</p>
+            <a href="<?= e(url('assiduite')) ?>" class="nav-link <?= $currentPage === 'assiduite' ? 'active' : '' ?>">Tableau assiduite</a>
+            <a href="<?= e(url('absences')) ?>" class="nav-link <?= str_starts_with($currentPage, 'absence') ? 'active' : '' ?>">Absences</a>
+            <a href="<?= e(url('retards')) ?>" class="nav-link <?= str_starts_with($currentPage, 'retard') ? 'active' : '' ?>">Retards</a>
+            <p class="nav-section">POO (cours)</p>
             <a href="test_user.php" class="nav-link">Tests User</a>
             <a href="test_student.php" class="nav-link">Tests Student</a>
         </nav>
-        <div class="sidebar-footer">
-            v<?= e(APP_VERSION) ?>
-        </div>
+        <div class="sidebar-footer">v<?= e(APP_VERSION) ?> &middot; Front only</div>
     </aside>
-
     <div class="main-wrap">
         <header class="topbar">
             <h1 class="topbar-title"><?= e($pageTitle ?? 'Administration') ?></h1>
             <span class="topbar-meta"><?= date('d/m/Y') ?></span>
         </header>
-
         <main class="main-content">
             <?php if ($flash): ?>
-                <div class="alert alert-<?= e($flash['type'] === 'error' ? 'error' : 'success') ?>">
+                <div class="alert alert-<?= e($flash['type'] === 'error' ? 'error' : ($flash['type'] === 'warning' ? 'warning' : 'success')) ?>">
                     <?= e($flash['message']) ?>
                 </div>
             <?php endif; ?>
-
-            <?php if (!empty($demoMode)): ?>
-                <div class="demo-banner">
-                    Base de donnees indisponible - les donnees sont stockees en session (mode demo).
-                </div>
-            <?php endif; ?>
-
+            <?php maquetteNotice(); ?>
             <?= $content ?>
         </main>
     </div>

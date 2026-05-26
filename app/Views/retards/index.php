@@ -1,45 +1,22 @@
 <section class="panel">
     <div class="panel-header">
-        <h2>Liste des retards</h2>
-        <a href="<?= e(url('retard-create')) ?>" class="btn btn-primary">+ Nouveau retard</a>
+        <h2>Retards</h2>
+        <a href="<?= e(url('retard-form')) ?>" class="btn btn-primary">+ Declarer</a>
     </div>
     <div class="panel-body">
-        <?php if (empty($retards)): ?>
-            <div class="empty-state">
-                <p>Aucun retard enregistre.</p>
-                <a href="<?= e(url('retard-create')) ?>" class="btn btn-primary">Enregistrer un retard</a>
-            </div>
-        <?php else: ?>
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Etudiant</th>
-                        <th>Minutes</th>
-                        <th>Motif</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($retards as $retard): ?>
-                        <tr>
-                            <td><?= e(!empty($retard['date']) ? date('d/m/Y', strtotime($retard['date'])) : '') ?></td>
-                            <td><?= e(studentLabel($students, (int) ($retard['student_id'] ?? 0))) ?></td>
-                            <td><?= (int) ($retard['minutes_late'] ?? 0) ?></td>
-                            <td><?= e($retard['reason'] ?? '') ?></td>
-                            <td>
-                                <div class="btn-group">
-                                    <a href="<?= e(url('retard-edit', ['id' => $retard['id']])) ?>" class="btn btn-sm btn-secondary">Modifier</a>
-                                    <form method="post" action="<?= e(url('retard-delete')) ?>" data-confirm="Supprimer ce retard ?" style="display:inline;">
-                                        <input type="hidden" name="id" value="<?= (int) $retard['id'] ?>">
-                                        <button type="submit" class="btn btn-sm btn-danger">Supprimer</button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        <?php endif; ?>
+        <table class="data-table">
+            <thead><tr><th>Date</th><th>Etudiant</th><th>Minutes</th><th>Motif</th><th></th></tr></thead>
+            <tbody>
+                <?php foreach ($retards as $r): ?>
+                <tr>
+                    <td><?= e(date('d/m/Y', strtotime($r['date']))) ?></td>
+                    <td><?= e(studentLabel($students, (int) $r['student_id'])) ?></td>
+                    <td><?= (int) $r['minutes_late'] ?> min</td>
+                    <td><?= e($r['reason'] ?? '') ?></td>
+                    <td><a href="<?= e(url('retard-form', ['id' => $r['id']])) ?>" class="btn btn-sm btn-secondary">Voir</a></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
 </section>

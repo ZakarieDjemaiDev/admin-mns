@@ -70,6 +70,7 @@ function render(string $view, array $data = [], string $title = ''): void
     extract($data, EXTR_SKIP);
     $pageTitle = $title;
     $currentPage = $data['currentPage'] ?? '';
+    $frontOnly = true;
 
     ob_start();
     $viewFile = ROOT_PATH . '/app/Views/' . $view . '.php';
@@ -81,31 +82,10 @@ function render(string $view, array $data = [], string $title = ''): void
     }
     require $viewFile;
     $content = ob_get_clean();
-
     require ROOT_PATH . '/app/Views/layout.php';
 }
 
-function tryDatabase(): ?\PDO
+function maquetteNotice(): void
 {
-    try {
-        $dsn = sprintf(
-            'mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4',
-            DB_HOST,
-            DB_PORT,
-            DB_NAME
-        );
-        $pdo = new \PDO($dsn, DB_USER, DB_PASS);
-        $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-        return $pdo;
-    } catch (\Throwable $e) {
-        return null;
-    }
-}
-
-function filterCurrentMonth(array $rows, string $dateKey = 'date'): array
-{
-    $month = date('Y-m');
-    return array_values(array_filter($rows, function ($row) use ($month, $dateKey) {
-        return isset($row[$dateKey]) && str_starts_with((string) $row[$dateKey], $month);
-    }));
+    echo '<div class="maquette-banner">Maquette <strong>front uniquement</strong> : donnees fictives, formulaires non enregistres (back-end / PDO a venir).</div>';
 }
