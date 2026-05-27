@@ -138,5 +138,5 @@ function render(string $view, array $data = [], string $title = ''): void
  */
 function maquetteNotice(): void
 {
-    echo '<div class="maquette-banner">Maquette <strong>front uniquement</strong> : donnees fictives, formulaires non enregistres (back-end / PDO a venir).</div>';
+    // Bandeau de maquette supprimé — ne rien afficher.
 }

@@ -526,15 +526,7 @@ textarea.form-control {
     background: #fee2e2;
     color: #dc2626;
 }
-.maquette-banner {
-    background: #e0e7ff;
-    border: 1px solid #a5b4fc;
-    color: #3730a3;
-    padding: 0.65rem 1rem;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    margin-bottom: 1.25rem;
-}
+
 
 .alert-warning {
     background: #fef3c7;
